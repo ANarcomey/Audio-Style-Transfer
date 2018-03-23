@@ -1,0 +1,7 @@
+N_filters = 4096
+style weight = 1
+content weight = 1000
+learning rate = 0.001
+initialize with content = True
+N_bins = 1025
+spectro shape = [1, 1, 89, 1025]
