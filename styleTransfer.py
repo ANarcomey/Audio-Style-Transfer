@@ -226,11 +226,8 @@ if __name__ == '__main__':
     writeParamsToFile(inputs, "inputs.txt")
 
 
-    #contentSpectro, content_sr = read_audio_spectrum(contentFile, N_FFT = 2048)
-    #styleSpectro, style_sr = read_audio_spectrum(styleFile, N_FFT = 2048)
-    
-    contentSpectro, content_sr = read_audio_spectrum(contentFile, N_FFT = 512)
-    styleSpectro, style_sr = read_audio_spectrum(styleFile, N_FFT = 512)
+    contentSpectro, content_sr = read_audio_spectrum(contentFile, N_FFT = 2048)
+    styleSpectro, style_sr = read_audio_spectrum(styleFile, N_FFT = 2048)
 
     print ("content spectrogram shape = ", contentSpectro.shape)
     print("style spectrogram shape = ", styleSpectro.shape)
@@ -240,40 +237,21 @@ if __name__ == '__main__':
     #In order to ensure that content and style have same shape, 
     #clips should be 10s so this shouldn't be issue
     styleSpectro = styleSpectro[:N_binsC,:N_timestepsC]
-    
-    
-    
-    
-    #for model 2
-    content = np.reshape(contentSpectro.T, (1,N_timestepsC, N_binsC,1))
-    style = np.reshape(styleSpectro.T, (1,N_timestepsS, N_binsS,1))
-    
-    content_tf = tf.constant(content, name = 'content_tf', dtype = tf.float32)
-    style_tf = tf.constant(style, name = 'style_tf', dtype = tf.float32)
-    model2 = shallowModel2(usingKickStart, content_tf, style_tf, N_binsC)
-    print("using shallow model 2")
-    result = model2.synthesize()
-    writeOutput(result, content_sr, filename = "out.wav")
 
 
     
-    #for ulyanov's reshape
-    '''content = np.reshape(contentSpectro.T, (1,1,N_timestepsC, N_binsC))
+    content = np.reshape(contentSpectro.T, (1,1,N_timestepsC, N_binsC))
     style = np.reshape(styleSpectro.T, (1,1,N_timestepsS, N_binsS))
 
     content_tf = tf.constant(content, name = 'content_tf', dtype = tf.float32)
     style_tf = tf.constant(style, name = 'style_tf', dtype = tf.float32)
-
-    #model1(kickStartFile, content_tf, style_tf, N_binsC)
-    #model2(kickStartFile, content_tf, style_tf, N_binsC)
-
 
 
     model1 = shallowModel(usingKickStart, content_tf, style_tf, N_binsC)
     print('using shallow model')
     result = model1.synthesize()
 
-    writeOutput(result, content_sr, filename = "out.wav")'''
+    writeOutput(result, content_sr, filename = "out.wav")
     
     
     
